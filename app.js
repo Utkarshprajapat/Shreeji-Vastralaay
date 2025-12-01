@@ -2,6 +2,12 @@
 // ⚠️ REPLACE THIS URL WITH YOUR GOOGLE APPS SCRIPT WEB APP URL
 const GOOGLE_SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbx3nzjSSNyJvCIP2cIZRSJkiJxlvTeQamTEl-zFsbhq_XTHU5vfGSGCiy0g4sBWbPc/exec";
 
+// ⚠️ PAYTM CONFIGURATION
+// Get your credentials from: https://dashboard.paytm.com/next/apikeys
+const PAYTM_MID = "YOUR_MERCHANT_ID_HERE"; // Merchant ID
+const PAYTM_WEBSITE = "WEBSTAGING"; // Use "WEBSTAGING" for testing, "DEFAULT" for production
+const BUSINESS_NAME = "Shreeji Vastraalay";
+
 // ===== PRODUCT DATA =====
 // 📝 Edit this array to add/modify your products
 const products = [
@@ -261,8 +267,68 @@ function handleCheckout(event) {
         orderDate: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
     };
     
-    // Send to Google Sheets
-    sendOrderToGoogleSheets(orderData, formData.paymentMethod);
+    // Handle payment based on method
+    if (formData.paymentMethod === 'COD') {
+        // COD - Direct order placement
+        sendOrderToGoogleSheets(orderData, 'COD');
+    } else if (formData.paymentMethod === 'ONLINE') {
+        // Online Payment - Open Razorpay
+        initiateRazorpayPayment(orderData);
+    }
+}
+
+// ===== INITIATE PAYTM PAYMENT =====
+function initiateRazorpayPayment(orderData) {
+    // Show loading
+    const submitBtn = document.querySelector('#checkoutForm button[type="submit"]');
+    submitBtn.textContent = 'Opening Paytm...';
+    submitBtn.disabled = true;
+    
+    // Paytm configuration
+    const paytmParams = {
+        mid: PAYTM_MID,
+        orderId: orderData.orderId,
+        amount: orderData.totalAmount.toString(),
+        customerName: orderData.customerName,
+        customerPhone: orderData.phone,
+        customerEmail: "customer@shreejivastraalay.com", // Optional
+    };
+    
+    // Create Paytm payment form
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'paytm_payment.html';
+    form.target = '_blank';
+    
+    // Add form fields
+    Object.keys(paytmParams).forEach(key => {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = paytmParams[key];
+        form.appendChild(input);
+    });
+    
+    // Add order data
+    const orderInput = document.createElement('input');
+    orderInput.type = 'hidden';
+    orderInput.name = 'orderData';
+    orderInput.value = JSON.stringify(orderData);
+    form.appendChild(orderInput);
+    
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+    
+    // Reset button after 2 seconds
+    setTimeout(() => {
+        submitBtn.textContent = 'Place Order';
+        submitBtn.disabled = false;
+        document.getElementById('checkoutModal').classList.remove('active');
+        
+        // Show info message
+        alert('Paytm payment window opened. Complete payment and return to confirm your order.');
+    }, 2000);
 }
 
 // ===== SEND ORDER TO GOOGLE SHEETS =====
@@ -270,13 +336,14 @@ async function sendOrderToGoogleSheets(orderData, paymentMethod) {
     try {
         // Show loading state
         const submitBtn = document.querySelector('#checkoutForm button[type="submit"]');
-        const originalText = submitBtn.textContent;
-        submitBtn.textContent = 'Processing...';
-        submitBtn.disabled = true;
+        if (submitBtn) {
+            submitBtn.textContent = 'Processing...';
+            submitBtn.disabled = true;
+        }
         
-        const response = await fetch(GOOGLE_SHEET_WEBHOOK_URL, {
+        await fetch(GOOGLE_SHEET_WEBHOOK_URL, {
             method: 'POST',
-            mode: 'no-cors', // Required for Google Apps Script
+            mode: 'no-cors',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -284,16 +351,20 @@ async function sendOrderToGoogleSheets(orderData, paymentMethod) {
         });
         
         // Reset button
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
+        if (submitBtn) {
+            submitBtn.textContent = 'Place Order';
+            submitBtn.disabled = false;
+        }
         
         // Close checkout modal
         document.getElementById('checkoutModal').classList.remove('active');
         
         // Show success message
-        let successMessage = 'Thank you for your order! We will contact you shortly.';
-        if (paymentMethod === 'PREPAID') {
-            successMessage = 'Thank you! Payment link will be sent to you on WhatsApp shortly.';
+        let successMessage = '';
+        if (paymentMethod === 'COD') {
+            successMessage = '✅ Order placed successfully! We will contact you shortly for confirmation.';
+        } else if (paymentMethod === 'ONLINE') {
+            successMessage = '✅ Payment successful! Your order has been confirmed. Order ID: ' + orderData.orderId;
         }
         
         document.getElementById('successMessage').textContent = successMessage;
@@ -310,10 +381,11 @@ async function sendOrderToGoogleSheets(orderData, paymentMethod) {
         console.error('Error sending order:', error);
         alert('There was an error placing your order. Please try again or contact us directly.');
         
-        // Reset button
         const submitBtn = document.querySelector('#checkoutForm button[type="submit"]');
-        submitBtn.textContent = 'Place Order';
-        submitBtn.disabled = false;
+        if (submitBtn) {
+            submitBtn.textContent = 'Place Order';
+            submitBtn.disabled = false;
+        }
     }
 }
 
