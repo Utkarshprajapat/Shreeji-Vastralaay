@@ -1,80 +1,177 @@
 const STATIC_PRODUCTS = [
     {
-        "id": "POSHAK001",
+        "id": "POSHAK_001",
         "name": "Chudi Dar Poshak",
         "category": "dresses",
         "subcategory": "chudi dar",
-        "price": 299,
-        "originalPrice": 350,
-        "description": "Beautiful traditional chudi dar poshak for Krishna in multiple colors",
+        "price": 250,
+        "description": "Traditional Chudi Dar Poshak in vibrant colors",
         "inStock": true,
         "image": "chudi dar poshak/red.jpg",
         "images": ["chudi dar poshak/red.jpg", "chudi dar poshak/yellow.jpg"],
         "colors": ["Red", "Yellow"],
-        "sizes": ["Size 2", "Size 3", "Size 4"],
+        "sizes": ["3", "4"],
         "colorImages": {
             "Red": "chudi dar poshak/red.jpg",
             "Yellow": "chudi dar poshak/yellow.jpg"
         },
         "sizePrices": {
-            "Size 2": 299,
-            "Size 3": 299,
-            "Size 4": 319
+            "3": 250,
+            "4": 250
         },
         "featured": true
     },
     {
-        "id": "POSHAK002",
+        "id": "POSHAK_002",
         "name": "Colour Dress",
         "category": "dresses",
-        "subcategory": "colour dress",
-        "price": 249,
-        "originalPrice": 299,
-        "description": "Vibrant colour dress collection in multiple beautiful colors",
+        "subcategory": "colour",
+        "price": 120,
+        "description": "Beautiful multi-colored dresses for Laddu Gopal",
         "inStock": true,
         "image": "colour dress/blue.jpg",
         "images": [
-            "colour dress/blue.jpg",
-            "colour dress/orange.jpg",
-            "colour dress/pink.jpg",
-            "colour dress/red.jpg",
-            "colour dress/yellow.jpg"
+            "colour dress/blue.jpg", "colour dress/orange.jpg",
+            "colour dress/pibk.jpg", "colour dress/red.jpg", "colour dress/yellow.jpg"
         ],
         "colors": ["Blue", "Orange", "Pink", "Red", "Yellow"],
-        "sizes": ["Size 2", "Size 3", "Size 4"],
+        "sizes": ["2"],
         "colorImages": {
             "Blue": "colour dress/blue.jpg",
             "Orange": "colour dress/orange.jpg",
-            "Pink": "colour dress/pink.jpg",
+            "Pink": "colour dress/pibk.jpg",
             "Red": "colour dress/red.jpg",
             "Yellow": "colour dress/yellow.jpg"
         },
-        "sizePrices": {
-            "Size 2": 249,
-            "Size 3": 249,
-            "Size 4": 269
-        },
-        "featured": true
+        "sizePrices": { "2": 120 }
     },
     {
-        "id": "POSHAK003",
+        "id": "COMBO_001",
+        "name": "Combo Set",
+        "category": "combo",
+        "subcategory": "mix",
+        "price": 100,
+        "description": "Value combo set with mixed designs",
+        "inStock": true,
+        "image": "combo/20251016_123822.jpg",
+        "images": [
+            "combo/20251016_123822.jpg", "combo/20251016_123853.jpg",
+            "combo/20251016_123921.jpg", "combo/20251016_123956.jpg",
+            "combo/20251016_124115.jpg", "combo/20251016_124139.jpg"
+        ],
+        "colors": ["Design 1", "Design 2", "Design 3", "Design 4", "Design 5", "Design 6"],
+        "sizes": ["1", "2"],
+        "colorImages": {
+            "Design 1": "combo/20251016_123822.jpg",
+            "Design 2": "combo/20251016_123853.jpg",
+            "Design 3": "combo/20251016_123921.jpg",
+            "Design 4": "combo/20251016_123956.jpg",
+            "Design 5": "combo/20251016_124115.jpg",
+            "Design 6": "combo/20251016_124139.jpg"
+        },
+        "sizePrices": {
+            "1": 100,
+            "2": 100
+        }
+    },
+    {
+        "id": "POSHAK_003",
+        "name": "Cotton Poshak",
+        "category": "dresses",
+        "subcategory": "cotton",
+        "price": 50,
+        "description": "Comfortable cotton daily weat poshak. Price increases with size.",
+        "inStock": true,
+        "image": "cotton poshak/WhatsApp Image 2025-12-24 at 12.28.04 AM.jpeg",
+        "images": [
+            "cotton poshak/WhatsApp Image 2025-12-24 at 12.28.04 AM.jpeg",
+            "cotton poshak/WhatsApp Image 2025-12-24 at 12.28.27 AM (1).jpeg",
+            "cotton poshak/WhatsApp Image 2025-12-24 at 12.28.27 AM.jpeg",
+            "cotton poshak/WhatsApp Image 2025-12-24 at 12.28.28 AM.jpeg"
+        ],
+        "colors": ["Design 1", "Design 2", "Design 3", "Design 4"],
+        "sizes": ["1", "2", "3", "4", "5", "6"],
+        "colorImages": {
+            "Design 1": "cotton poshak/WhatsApp Image 2025-12-24 at 12.28.04 AM.jpeg",
+            "Design 2": "cotton poshak/WhatsApp Image 2025-12-24 at 12.28.27 AM (1).jpeg",
+            "Design 3": "cotton poshak/WhatsApp Image 2025-12-24 at 12.28.27 AM.jpeg",
+            "Design 4": "cotton poshak/WhatsApp Image 2025-12-24 at 12.28.28 AM.jpeg"
+        },
+        "sizePrices": {
+            "1": 50,
+            "2": 70,
+            "3": 90,
+            "4": 110,
+            "5": 130,
+            "6": 150
+        }
+    },
+    {
+        "id": "POSHAK_004",
+        "name": "Diamond Border Dress",
+        "category": "dresses",
+        "subcategory": "fancy",
+        "price": 220,
+        "description": "Elegant dress with diamond border work",
+        "inStock": true,
+        "image": "diamond border dress/pink.jpg",
+        "images": [
+            "diamond border dress/pink.jpg",
+            "diamond border dress/red.jpg",
+            "diamond border dress/yellow.jpg"
+        ],
+        "colors": ["Pink", "Red", "Yellow"],
+        "sizes": ["3", "4"],
+        "colorImages": {
+            "Pink": "diamond border dress/pink.jpg",
+            "Red": "diamond border dress/red.jpg",
+            "Yellow": "diamond border dress/yellow.jpg"
+        },
+        "sizePrices": {
+            "3": 220,
+            "4": 220
+        }
+    },
+    {
+        "id": "MUKUT_001",
+        "name": "Feather Mukut",
+        "category": "mukut",
+        "subcategory": "feather",
+        "price": 80,
+        "description": "Stylish feather mukut for Laddu Gopal",
+        "inStock": true,
+        "image": "Feather mukut/blue.jpg",
+        "images": [
+            "Feather mukut/blue.jpg", "Feather mukut/greenn.jpg", "Feather mukut/orange.jpg",
+            "Feather mukut/pink.jpg", "Feather mukut/red.jpg", "Feather mukut/yellow.jpg"
+        ],
+        "colors": ["Blue", "Green", "Orange", "Pink", "Red", "Yellow"],
+        "sizes": ["3", "4"],
+        "colorImages": {
+            "Blue": "Feather mukut/blue.jpg",
+            "Green": "Feather mukut/greenn.jpg",
+            "Orange": "Feather mukut/orange.jpg",
+            "Pink": "Feather mukut/pink.jpg",
+            "Red": "Feather mukut/red.jpg",
+            "Yellow": "Feather mukut/yellow.jpg"
+        },
+        "sizePrices": { "3": 80, "4": 80 }
+    },
+    {
+        "id": "POSHAK_005",
         "name": "Flower Design Poshak",
         "category": "dresses",
-        "subcategory": "flower design",
-        "price": 349,
-        "originalPrice": 399,
-        "description": "Elegant flower design poshak with beautiful patterns",
+        "subcategory": "flower",
+        "price": 150,
+        "description": "Floral design poshak for a fresh look",
         "inStock": true,
         "image": "flower design poshak/pink.jpg",
         "images": [
-            "flower design poshak/baby pink.jpg",
-            "flower design poshak/blue.jpg",
-            "flower design poshak/green.jpg",
-            "flower design poshak/pink.jpg",
-            "flower design poshak/white.jpg"
+            "flower design poshak/baby pink.jpg", "flower design poshak/blue.jpg",
+            "flower design poshak/green.jpg", "flower design poshak/pink.jpg", "flower design poshak/white.jpg"
         ],
         "colors": ["Baby Pink", "Blue", "Green", "Pink", "White"],
-        "sizes": ["Size 2", "Size 3", "Size 4"],
+        "sizes": ["3"],
         "colorImages": {
             "Baby Pink": "flower design poshak/baby pink.jpg",
             "Blue": "flower design poshak/blue.jpg",
@@ -82,89 +179,153 @@ const STATIC_PRODUCTS = [
             "Pink": "flower design poshak/pink.jpg",
             "White": "flower design poshak/white.jpg"
         },
-        "sizePrices": {
-            "Size 2": 349,
-            "Size 3": 349,
-            "Size 4": 369
-        },
-        "featured": true
+        "sizePrices": { "3": 150 }
     },
     {
-        "id": "MUKUT001",
-        "name": "Feather Mukut",
-        "category": "mukut",
-        "subcategory": "feather",
-        "price": 179,
-        "originalPrice": 229,
-        "description": "Elegant feather mukut with beautiful design",
+        "id": "POSHAK_006",
+        "name": "Ful Dress",
+        "category": "dresses",
+        "subcategory": "budget",
+        "price": 60,
+        "description": "Budget-friendly everyday dress",
         "inStock": true,
-        "image": "Feather mukut/blue.jpg",
-        "images": ["Feather mukut/blue.jpg"],
-        "colors": ["Blue"],
-        "sizes": ["Medium", "Large"],
+        "image": "ful dress/WhatsApp Image 2025-12-24 at 12.28.43 AM.jpeg",
+        "images": [
+            "ful dress/WhatsApp Image 2025-12-24 at 12.28.43 AM.jpeg",
+            "ful dress/WhatsApp Image 2025-12-24 at 12.30.23 AM.jpeg",
+            "ful dress/WhatsApp Image 2025-12-24 at 12.30.23 AM (1).jpeg"
+        ],
+        "colors": ["Design 1", "Design 2", "Design 3"],
+        "sizes": ["2"],
         "colorImages": {
-            "Blue": "Feather mukut/blue.jpg"
+            "Design 1": "ful dress/WhatsApp Image 2025-12-24 at 12.28.43 AM.jpeg",
+            "Design 2": "ful dress/WhatsApp Image 2025-12-24 at 12.30.23 AM.jpeg",
+            "Design 3": "ful dress/WhatsApp Image 2025-12-24 at 12.30.23 AM (1).jpeg"
         },
-        "sizePrices": {
-            "Medium": 179,
-            "Large": 199
-        }
+        "sizePrices": { "2": 60 }
     },
     {
-        "id": "MUKUT002",
+        "id": "MUKUT_002",
         "name": "Ganesh Mukut",
         "category": "mukut",
         "subcategory": "ganesh",
-        "price": 199,
-        "originalPrice": 249,
-        "description": "Special Ganesh themed mukut with golden finish",
+        "price": 70,
+        "description": "Divine Ganesh Mukut",
         "inStock": true,
-        "image": "ganesh mukut/orange.jpg",
-        "images": ["ganesh mukut/orange.jpg"],
-        "colors": ["Golden"],
-        "sizes": ["Medium", "Large"],
+        "image": "ganesh mukut/red.jpg",
+        "images": [
+            "ganesh mukut/blue.jpg", "ganesh mukut/green.jpg", "ganesh mukut/orange.jpg",
+            "ganesh mukut/pink.jpg", "ganesh mukut/red.jpg", "ganesh mukut/yellow.jpg"
+        ],
+        "colors": ["Blue", "Green", "Orange", "Pink", "Red", "Yellow"],
+        "sizes": ["7", "8"],
         "colorImages": {
-            "Golden": "ganesh mukut/orange.jpg"
+            "Blue": "ganesh mukut/blue.jpg",
+            "Green": "ganesh mukut/green.jpg",
+            "Orange": "ganesh mukut/orange.jpg",
+            "Pink": "ganesh mukut/pink.jpg",
+            "Red": "ganesh mukut/red.jpg",
+            "Yellow": "ganesh mukut/yellow.jpg"
         },
-        "sizePrices": {
-            "Medium": 199,
-            "Large": 219
-        }
+        "sizePrices": { "7": 70, "8": 70 }
     },
     {
-        "id": "COMBO001",
-        "name": "Complete Dress Set",
-        "category": "combo",
-        "subcategory": "full set",
-        "price": 599,
-        "originalPrice": 699,
-        "description": "Complete Krishna dress combo set with all accessories",
+        "id": "POSHAK_007",
+        "name": "Glitter Poshak",
+        "category": "dresses",
+        "subcategory": "fancy",
+        "price": 80,
+        "description": "Shiny glitter poshak",
         "inStock": true,
-        "image": "combo/20251016_123822.jpg",
+        "image": "glitter poshak/red.jpg",
         "images": [
-            "combo/20251016_123822.jpg",
-            "combo/20251016_123853.jpg",
-            "combo/20251016_123921.jpg",
-            "combo/20251016_123956.jpg"
+            "glitter poshak/blue.jpg", "glitter poshak/golden.jpg", "glitter poshak/pink.jpg",
+            "glitter poshak/red.jpg", "glitter poshak/silver.jpg", "glitter poshak/white.jpg"
         ],
-        "colors": ["Design 1", "Design 2", "Design 3", "Design 4"],
-        "sizes": ["Size 2", "Size 3", "Size 4"],
+        "colors": ["Blue", "Golden", "Pink", "Red", "Silver", "White"],
+        "sizes": ["2"],
         "colorImages": {
-            "Design 1": "combo/20251016_123822.jpg",
-            "Design 2": "combo/20251016_123853.jpg",
-            "Design 3": "combo/20251016_123921.jpg",
-            "Design 4": "combo/20251016_123956.jpg"
+            "Blue": "glitter poshak/blue.jpg",
+            "Golden": "glitter poshak/golden.jpg",
+            "Pink": "glitter poshak/pink.jpg",
+            "Red": "glitter poshak/red.jpg",
+            "Silver": "glitter poshak/silver.jpg",
+            "White": "glitter poshak/white.jpg"
         },
-        "sizePrices": {
-            "Size 2": 599,
-            "Size 3": 599,
-            "Size 4": 649
+        "sizePrices": { "2": 80 }
+    },
+    {
+        "id": "POSHAK_008",
+        "name": "Leaf Work Dress",
+        "category": "dresses",
+        "subcategory": "work",
+        "price": 200,
+        "description": "Heavy work dress with leaf patterns",
+        "inStock": true,
+        "image": "leaf work dress/green.jpg",
+        "images": [
+            "leaf work dress/green.jpg", "leaf work dress/pink.jpg",
+            "leaf work dress/purple.jpg", "leaf work dress/red.jpg"
+        ],
+        "colors": ["Green", "Pink", "Purple", "Red"],
+        "sizes": ["3", "4"],
+        "colorImages": {
+            "Green": "leaf work dress/green.jpg",
+            "Pink": "leaf work dress/pink.jpg",
+            "Purple": "leaf work dress/purple.jpg",
+            "Red": "leaf work dress/red.jpg"
         },
-        "featured": true
+        "sizePrices": { "3": 200, "4": 200 }
+    },
+    {
+        "id": "POSHAK_009",
+        "name": "More Design Dress",
+        "category": "dresses",
+        "subcategory": "fancy",
+        "price": 60,
+        "description": "Unique design dresses",
+        "inStock": true,
+        "image": "more design poshok/orange.jpg",
+        "images": [
+            "more design poshok/orange.jpg", "more design poshok/red.jpg", "more design poshok/yellow.jpg"
+        ],
+        "colors": ["Orange", "Red", "Yellow"],
+        "sizes": ["2"],
+        "colorImages": {
+            "Orange": "more design poshok/orange.jpg",
+            "Red": "more design poshok/red.jpg",
+            "Yellow": "more design poshok/yellow.jpg"
+        },
+        "sizePrices": { "2": 60 }
+    },
+    {
+        "id": "POSHAK_010",
+        "name": "Moti Dress",
+        "category": "dresses",
+        "subcategory": "heavy",
+        "price": 250,
+        "description": "Heavy moti work dress",
+        "inStock": true,
+        "image": "moti work dress/red.jpg",
+        "images": [
+            "moti work dress/blue'.jpg", "moti work dress/green.jpg", "moti work dress/orange.jpg",
+            "moti work dress/pink.jpg", "moti work dress/red.jpg", "moti work dress/yellow.jpg"
+        ],
+        "colors": ["Blue", "Green", "Orange", "Pink", "Red", "Yellow"],
+        "sizes": ["3", "4"],
+        "colorImages": {
+            "Blue": "moti work dress/blue'.jpg",
+            "Green": "moti work dress/green.jpg",
+            "Orange": "moti work dress/orange.jpg",
+            "Pink": "moti work dress/pink.jpg",
+            "Red": "moti work dress/red.jpg",
+            "Yellow": "moti work dress/yellow.jpg"
+        },
+        "sizePrices": { "3": 250, "4": 250 }
     }
 ];
 
 if (typeof window !== 'undefined') {
     window.STATIC_PRODUCTS = STATIC_PRODUCTS;
-    console.log("✅ Static products loaded:", STATIC_PRODUCTS.length);
+    console.log("✅ Custom Static Products Loaded:", STATIC_PRODUCTS.length);
 }
