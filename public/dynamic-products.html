@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shreeji Vastraalay - Dynamic Products</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe8e8 100%);
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #c41e3a 0%, #8b1538 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(196, 30, 58, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #ffd700;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title h2 {
+            font-size: 2.5rem;
+            color: #c41e3a;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-title p {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        /* Filters */
+        .filters {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.9rem;
+        }
+
+        .filter-group select {
+            padding: 0.5rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            min-width: 150px;
+        }
+
+        .filter-group select:focus {
+            outline: none;
+            border-color: #c41e3a;
+        }
+
+        .clear-filters {
+            background: #c41e3a;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .clear-filters:hover {
+            background: #8b1538;
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #ddd;
+            border-top: 3px solid #c41e3a;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+
+        .stock-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .in-stock {
+            background: #28a745;
+            color: white;
+        }
+
+        .out-of-stock {
+            background: #dc3545;
+            color: white;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-category {
+            font-size: 0.9rem;
+            color: #c41e3a;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-details {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #c41e3a;
+            margin-bottom: 1rem;
+        }
+
+        .whatsapp-btn {
+            width: 100%;
+            background: #25d366;
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .whatsapp-btn:hover {
+            background: #128c7e;
+        }
+
+        .whatsapp-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Error State */
+        .error-message {
+            text-align: center;
+            padding: 3rem;
+            color: #dc3545;
+            font-size: 1.1rem;
+        }
+
+        /* No Products */
+        .no-products {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .page-title h2 {
+                font-size: 2rem;
+            }
+
+            .filter-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-group select {
+                min-width: auto;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">
+                <img src="logo.png" alt="Shreeji Vastraalay Logo">
+                <h1>Shreeji Vastraalay</h1>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="dynamic-products.html">Products</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <div class="page-title">
+            <h2>Our Products</h2>
+            <p>Divine clothing and accessories for spiritual devotion</p>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters">
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label for="categoryFilter">Category</label>
+                    <select id="categoryFilter">
+                        <option value="">All Categories</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="sizeFilter">Size</label>
+                    <select id="sizeFilter">
+                        <option value="">All Sizes</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="colorFilter">Color</label>
+                    <select id="colorFilter">
+                        <option value="">All Colors</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="availabilityFilter">Availability</label>
+                    <select id="availabilityFilter">
+                        <option value="">All</option>
+                        <option value="Yes">In Stock</option>
+                        <option value="No">Out of Stock</option>
+                    </select>
+                </div>
+                <button class="clear-filters" onclick="clearAllFilters()">Clear Filters</button>
+            </div>
+        </div>
+
+        <!-- Products Container -->
+        <div id="productsContainer">
+            <div class="loading">Loading products...</div>
+        </div>
+    </main>
+
+    <script>
+        // Configuration
+        const GOOGLE_SHEET_ID = 'YOUR_GOOGLE_SHEET_ID_HERE'; // Replace with your Google Sheet ID
+        const SHEET_NAME = 'Products'; // Name of your sheet tab
+        const API_KEY = 'YOUR_GOOGLE_API_KEY_HERE'; // Replace with your Google API key
+        
+        // Alternative: Use Google Apps Script Web App URL (recommended)
+        const GOOGLE_APPS_SCRIPT_URL = 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE';
+
+        // Global variables
+        let allProducts = [];
+        let filteredProducts = [];
+
+        // Cache configuration
+        const CACHE_KEY = 'shreeji_products_cache';
+        const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProducts();
+        });
+
+        // Load products from Google Sheets
+        async function loadProducts() {
+            try {
+                // Try to load from cache first
+                const cachedData = getCachedData();
+                if (cachedData) {
+                    console.log('Loading from cache...');
+                    allProducts = cachedData;
+                    displayProducts(allProducts);
+                    populateFilters();
+                    return;
+                }
+
+                console.log('Fetching fresh data...');
+                
+                // Method 1: Using Google Apps Script (Recommended)
+                if (GOOGLE_APPS_SCRIPT_URL && GOOGLE_APPS_SCRIPT_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE') {
+                    const response = await fetch(GOOGLE_APPS_SCRIPT_URL);
+                    const data = await response.json();
+                    allProducts = data;
+                } 
+                // Method 2: Using Google Sheets API (Alternative)
+                else if (GOOGLE_SHEET_ID !== 'YOUR_GOOGLE_SHEET_ID_HERE' && API_KEY !== 'YOUR_GOOGLE_API_KEY_HERE') {
+                    const url = `https://sheets.googleapis.com/v4/spreadsheets/${GOOGLE_SHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    allProducts = parseSheetData(data.values);
+                }
+                else {
+                    // Fallback: Use sample data for demonstration
+                    allProducts = getSampleData();
+                }
+
+                // Cache the data
+                setCachedData(allProducts);
+                
+                // Display products
+                displayProducts(allProducts);
+                populateFilters();
+
+            } catch (error) {
+                console.error('Error loading products:', error);
+                showError('Failed to load products. Please try again later.');
+            }
+        }
+
+        // Parse Google Sheets data
+        function parseSheetData(values) {
+            if (!values || values.length < 2) return [];
+            
+            const headers = values[0];
+            const products = [];
+            
+            for (let i = 1; i < values.length; i++) {
+                const row = values[i];
+                const product = {};
+                
+                headers.forEach((header, index) => {
+                    product[header.toLowerCase().replace(/\s+/g, '')] = row[index] || '';
+                });
+                
+                // Only add products with required fields
+                if (product.productname && product.imageurl) {
+                    products.push(product);
+                }
+            }
+            
+            return products;
+        }
+
+        // Cache management
+        function getCachedData() {
+            try {
+                const cached = localStorage.getItem(CACHE_KEY);
+                if (!cached) return null;
+                
+                const { data, timestamp } = JSON.parse(cached);
+                const now = Date.now();
+                
+                if (now - timestamp > CACHE_DURATION) {
+                    localStorage.removeItem(CACHE_KEY);
+                    return null;
+                }
+                
+                return data;
+            } catch (error) {
+                console.error('Error reading cache:', error);
+                return null;
+            }
+        }
+
+        function setCachedData(data) {
+            try {
+                const cacheObject = {
+                    data: data,
+                    timestamp: Date.now()
+                };
+                localStorage.setItem(CACHE_KEY, JSON.stringify(cacheObject));
+            } catch (error) {
+                console.error('Error setting cache:', error);
+            }
+        }
+
+        // Display products
+        function displayProducts(products) {
+            const container = document.getElementById('productsContainer');
+            
+            if (!products || products.length === 0) {
+                container.innerHTML = '<div class="no-products">No products found matching your criteria.</div>';
+                return;
+            }
+
+            const productsHTML = products.map(product => createProductCard(product)).join('');
+            container.innerHTML = `<div class="products-grid">${productsHTML}</div>`;
+        }
+
+        // Create product card HTML
+        function createProductCard(product) {
+            const isAvailable = product.availability?.toLowerCase() === 'yes';
+            const stockBadge = isAvailable ? 
+                '<span class="stock-badge in-stock">In Stock</span>' : 
+                '<span class="stock-badge out-of-stock">Out of Stock</span>';
+            
+            const whatsappButton = isAvailable && product.whatsapplink ? 
+                `<a href="${product.whatsapplink}" class="whatsapp-btn" target="_blank">
+                    💬 Buy on WhatsApp
+                </a>` : 
+                `<button class="whatsapp-btn" disabled>
+                    ${isAvailable ? 'Contact for Purchase' : 'Out of Stock'}
+                </button>`;
+
+            return `
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="${product.imageurl}" 
+                             alt="${product.productname}"
+                             onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjgwIiBoZWlnaHQ9IjI1MCIgdmlld0JveD0iMCAwIDI4MCAyNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyODAiIGhlaWdodD0iMjUwIiBmaWxsPSIjRjVGNUY1Ii8+CjxwYXRoIGQ9Ik0xNDAgMTI1QzE0MCA5Ny4zODU4IDE2Mi4zODYgNzUgMTkwIDc1QzIxNy42MTQgNzUgMjQwIDk3LjM4NTggMjQwIDEyNUMyNDAgMTUyLjYxNCAyMTcuNjE0IDE3NSAxOTAgMTc1QzE2Mi4zODYgMTc1IDE0MCAxNTIuNjE0IDE0MCAxMjVaIiBmaWxsPSIjREREREREIi8+CjxwYXRoIGQ9Ik0xMDUgMTI1QzEwNSA5Ny4zODU4IDEyNy4zODYgNzUgMTU1IDc1QzE4Mi42MTQgNzUgMjA1IDk3LjM4NTggMjA1IDEyNUMyMDUgMTUyLjYxNCAxODIuNjE0IDE3NSAxNTUgMTc1QzEyNy4zODYgMTc1IDEwNSAxNTIuNjE0IDEwNSAxMjVaIiBmaWxsPSIjQ0NDQ0NDIi8+Cjx0ZXh0IHg9IjE0MCIgeT0iMjAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM5OTk5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkltYWdlIG5vdCBhdmFpbGFibGU8L3RleHQ+Cjwvc3ZnPgo='">
+                        ${stockBadge}
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">${product.category || 'General'}</div>
+                        <h3 class="product-name">${product.productname}</h3>
+                        <div class="product-details">
+                            ${product.size ? `<span>Size: ${product.size}</span>` : ''}
+                            ${product.color ? `<span>Color: ${product.color}</span>` : ''}
+                        </div>
+                        <div class="product-price">₹${product.price || 'Price on request'}</div>
+                        ${whatsappButton}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Populate filter dropdowns
+        function populateFilters() {
+            const categories = [...new Set(allProducts.map(p => p.category).filter(Boolean))];
+            const sizes = [...new Set(allProducts.map(p => p.size).filter(Boolean))];
+            const colors = [...new Set(allProducts.map(p => p.color).filter(Boolean))];
+
+            populateSelect('categoryFilter', categories);
+            populateSelect('sizeFilter', sizes);
+            populateSelect('colorFilter', colors);
+
+            // Add event listeners
+            document.getElementById('categoryFilter').addEventListener('change', applyFilters);
+            document.getElementById('sizeFilter').addEventListener('change', applyFilters);
+            document.getElementById('colorFilter').addEventListener('change', applyFilters);
+            document.getElementById('availabilityFilter').addEventListener('change', applyFilters);
+        }
+
+        function populateSelect(selectId, options) {
+            const select = document.getElementById(selectId);
+            const currentValue = select.value;
+            
+            // Keep the "All" option and add new options
+            const allOption = select.querySelector('option[value=""]');
+            select.innerHTML = '';
+            select.appendChild(allOption);
+            
+            options.sort().forEach(option => {
+                const optionElement = document.createElement('option');
+                optionElement.value = option;
+                optionElement.textContent = option;
+                select.appendChild(optionElement);
+            });
+            
+            select.value = currentValue;
+        }
+
+        // Apply filters
+        function applyFilters() {
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const sizeFilter = document.getElementById('sizeFilter').value;
+            const colorFilter = document.getElementById('colorFilter').value;
+            const availabilityFilter = document.getElementById('availabilityFilter').value;
+
+            filteredProducts = allProducts.filter(product => {
+                return (!categoryFilter || product.category === categoryFilter) &&
+                       (!sizeFilter || product.size === sizeFilter) &&
+                       (!colorFilter || product.color === colorFilter) &&
+                       (!availabilityFilter || product.availability === availabilityFilter);
+            });
+
+            displayProducts(filteredProducts);
+        }
+
+        // Clear all filters
+        function clearAllFilters() {
+            document.getElementById('categoryFilter').value = '';
+            document.getElementById('sizeFilter').value = '';
+            document.getElementById('colorFilter').value = '';
+            document.getElementById('availabilityFilter').value = '';
+            displayProducts(allProducts);
+        }
+
+        // Show error message
+        function showError(message) {
+            const container = document.getElementById('productsContainer');
+            container.innerHTML = `<div class="error-message">${message}</div>`;
+        }
+
+        // Sample data for demonstration
+        function getSampleData() {
+            return [
+                {
+                    productid: '1',
+                    productname: 'Divine Krishna Poshak',
+                    category: 'Poshak',
+                    size: 'Size 3',
+                    color: 'Yellow',
+                    price: '299',
+                    imageurl: 'https://via.placeholder.com/280x250/FFD700/000000?text=Krishna+Poshak',
+                    whatsapplink: 'https://wa.me/919173273691?text=I%20want%20to%20buy%20Divine%20Krishna%20Poshak',
+                    availability: 'Yes'
+                },
+                {
+                    productid: '2',
+                    productname: 'Golden Mukut',
+                    category: 'Mukut',
+                    size: 'Medium',
+                    color: 'Golden',
+                    price: '199',
+                    imageurl: 'https://via.placeholder.com/280x250/FFD700/000000?text=Golden+Mukut',
+                    whatsapplink: 'https://wa.me/919173273691?text=I%20want%20to%20buy%20Golden%20Mukut',
+                    availability: 'Yes'
+                },
+                {
+                    productid: '3',
+                    productname: 'Sacred Tulsi Mala',
+                    category: 'Mala',
+                    size: 'One Size',
+                    color: 'Brown',
+                    price: '149',
+                    imageurl: 'https://via.placeholder.com/280x250/8B4513/FFFFFF?text=Tulsi+Mala',
+                    whatsapplink: 'https://wa.me/919173273691?text=I%20want%20to%20buy%20Sacred%20Tulsi%20Mala',
+                    availability: 'No'
+                }
+            ];
+        }
+
+        // Refresh products (for manual refresh)
+        function refreshProducts() {
+            localStorage.removeItem(CACHE_KEY);
+            document.getElementById('productsContainer').innerHTML = '<div class="loading">Loading products...</div>';
+            loadProducts();
+        }
+
+        // Add refresh button functionality (optional)
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F5' || (e.ctrlKey && e.key === 'r')) {
+                e.preventDefault();
+                refreshProducts();
+            }
+        });
+    </script>
+</body>
+</html>

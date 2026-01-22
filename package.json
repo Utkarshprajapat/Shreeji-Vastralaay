@@ -1,0 +1,7 @@
+{
+    "name": "shreeji-vastraalay-root",
+    "private": true,
+    "scripts": {
+        "build": "node build-site.js"
+    }
+}

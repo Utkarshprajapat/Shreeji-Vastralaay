@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shreeji Vastraalay - Admin Helper</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe8e8 100%);
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #c41e3a 0%, #8b1538 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        .tool-section {
+            margin-bottom: 3rem;
+            padding: 1.5rem;
+            border: 2px solid #f0f0f0;
+            border-radius: 10px;
+        }
+
+        .tool-section h2 {
+            color: #c41e3a;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #c41e3a;
+        }
+
+        .btn {
+            background: #c41e3a;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #8b1538;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+
+        .result {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .result.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .result.error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .result.info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+
+        .copy-btn {
+            background: #28a745;
+            font-size: 0.8rem;
+            padding: 0.3rem 0.8rem;
+            margin-left: 0.5rem;
+        }
+
+        .copy-btn:hover {
+            background: #218838;
+        }
+
+        .instructions {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .instructions ol {
+            margin-left: 1.5rem;
+        }
+
+        .instructions li {
+            margin-bottom: 0.5rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            body {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛠️ Admin Helper Tools</h1>
+            <p>Tools to help you manage Shreeji Vastraalay products easily</p>
+        </div>
+
+        <div class="content">
+            <!-- Google Drive URL Converter -->
+            <div class="tool-section">
+                <h2>📁 Google Drive URL Converter</h2>
+                <div class="instructions">
+                    <strong>How to use:</strong>
+                    <ol>
+                        <li>Upload image to Google Drive</li>
+                        <li>Right-click → Share → "Anyone with the link"</li>
+                        <li>Copy the sharing URL and paste below</li>
+                        <li>Get the direct image URL for your Google Sheet</li>
+                    </ol>
+                </div>
+                
+                <div class="form-group">
+                    <label for="driveUrl">Google Drive Sharing URL:</label>
+                    <input type="url" id="driveUrl" placeholder="https://drive.google.com/file/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74mMngDGa2o/view?usp=sharing">
+                </div>
+                
+                <button class="btn" onclick="convertDriveUrl()">Convert to Direct URL</button>
+                
+                <div id="driveResult"></div>
+            </div>
+
+            <!-- WhatsApp Link Generator -->
+            <div class="tool-section">
+                <h2>💬 WhatsApp Link Generator</h2>
+                <div class="instructions">
+                    <strong>Generate WhatsApp purchase links for your products</strong>
+                </div>
+                
+                <div class="grid">
+                    <div class="form-group">
+                        <label for="phoneNumber">Your WhatsApp Number:</label>
+                        <input type="tel" id="phoneNumber" placeholder="919173273691" value="919173273691">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="productName">Product Name:</label>
+                        <input type="text" id="productName" placeholder="Divine Krishna Poshak">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="customMessage">Custom Message (optional):</label>
+                    <textarea id="customMessage" rows="3" placeholder="I want to buy [PRODUCT_NAME]. Please share more details."></textarea>
+                </div>
+                
+                <button class="btn" onclick="generateWhatsAppLink()">Generate WhatsApp Link</button>
+                
+                <div id="whatsappResult"></div>
+            </div>
+
+            <!-- Product ID Generator -->
+            <div class="tool-section">
+                <h2>🔢 Product ID Generator</h2>
+                <div class="instructions">
+                    <strong>Generate unique product IDs based on category</strong>
+                </div>
+                
+                <div class="grid">
+                    <div class="form-group">
+                        <label for="category">Category:</label>
+                        <select id="category">
+                            <option value="POSHAK">Poshak</option>
+                            <option value="MUKUT">Mukut</option>
+                            <option value="MALA">Mala</option>
+                            <option value="BANSURI">Bansuri</option>
+                            <option value="COMBO">Combo</option>
+                            <option value="OTHER">Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="sequenceNumber">Sequence Number:</label>
+                        <input type="number" id="sequenceNumber" placeholder="1" min="1" value="1">
+                    </div>
+                </div>
+                
+                <button class="btn" onclick="generateProductId()">Generate Product ID</button>
+                
+                <div id="productIdResult"></div>
+            </div>
+
+            <!-- Bulk Data Formatter -->
+            <div class="tool-section">
+                <h2>📊 Bulk Data Formatter</h2>
+                <div class="instructions">
+                    <strong>Format multiple products for easy copy-paste to Google Sheets</strong>
+                </div>
+                
+                <div class="form-group">
+                    <label for="bulkData">Product Data (one per line):</label>
+                    <textarea id="bulkData" rows="8" placeholder="Product Name | Category | Size | Color | Price | Drive URL | Availability
+Divine Krishna Poshak | Poshak | Size 3 | Yellow | 299 | https://drive.google.com/file/d/... | Yes
+Golden Mukut | Mukut | Medium | Golden | 199 | https://drive.google.com/file/d/... | Yes"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="whatsappPhone">WhatsApp Number for all products:</label>
+                    <input type="tel" id="whatsappPhone" placeholder="919173273691" value="919173273691">
+                </div>
+                
+                <button class="btn" onclick="formatBulkData()">Format for Google Sheets</button>
+                
+                <div id="bulkResult"></div>
+            </div>
+
+            <!-- Google Sheet Template -->
+            <div class="tool-section">
+                <h2>📋 Google Sheet Template</h2>
+                <div class="instructions">
+                    <strong>Copy this header row to your Google Sheet (Row 1)</strong>
+                </div>
+                
+                <div class="result info">ProductID	ProductName	Category	Size	Color	Price	ImageURL	WhatsAppLink	Availability</div>
+                <button class="btn copy-btn" onclick="copyToClipboard('ProductID\tProductName\tCategory\tSize\tColor\tPrice\tImageURL\tWhatsAppLink\tAvailability')">Copy Headers</button>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="tool-section">
+                <h2>🔗 Quick Links</h2>
+                <div class="grid">
+                    <div>
+                        <h3>Google Services:</h3>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li><a href="https://sheets.google.com" target="_blank">Google Sheets</a></li>
+                            <li><a href="https://drive.google.com" target="_blank">Google Drive</a></li>
+                            <li><a href="https://script.google.com" target="_blank">Apps Script</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Tools:</h3>
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li><a href="dynamic-products.html" target="_blank">View Products Page</a></li>
+                            <li><a href="index.html" target="_blank">Main Website</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Convert Google Drive sharing URL to direct image URL
+        function convertDriveUrl() {
+            const url = document.getElementById('driveUrl').value.trim();
+            const resultDiv = document.getElementById('driveResult');
+            
+            if (!url) {
+                showResult(resultDiv, 'Please enter a Google Drive URL', 'error');
+                return;
+            }
+            
+            try {
+                const directUrl = cleanGoogleDriveUrl(url);
+                const result = `Direct Image URL:\n${directUrl}\n\nCopy this URL to your Google Sheet's ImageURL column.`;
+                showResult(resultDiv, result, 'success');
+                
+                // Add copy button
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'btn copy-btn';
+                copyBtn.textContent = 'Copy URL';
+                copyBtn.onclick = () => copyToClipboard(directUrl);
+                resultDiv.appendChild(copyBtn);
+                
+            } catch (error) {
+                showResult(resultDiv, `Error: ${error.message}`, 'error');
+            }
+        }
+        
+        // Clean Google Drive URL (same function as in the main script)
+        function cleanGoogleDriveUrl(url) {
+            if (!url) return url;
+            
+            // If it's already a direct link, return as is
+            if (url.includes('drive.google.com/uc?')) {
+                return url;
+            }
+            
+            // Extract file ID from various Google Drive URL formats
+            let fileId = null;
+            
+            // Format: https://drive.google.com/file/d/FILE_ID/view?usp=sharing
+            const viewMatch = url.match(/\/file\/d\/([a-zA-Z0-9-_]+)/);
+            if (viewMatch) {
+                fileId = viewMatch[1];
+            }
+            
+            // Format: https://drive.google.com/open?id=FILE_ID
+            const openMatch = url.match(/[?&]id=([a-zA-Z0-9-_]+)/);
+            if (openMatch) {
+                fileId = openMatch[1];
+            }
+            
+            // If we found a file ID, convert to direct link
+            if (fileId) {
+                return `https://drive.google.com/uc?export=view&id=${fileId}`;
+            }
+            
+            throw new Error('Could not extract file ID from URL. Please check the URL format.');
+        }
+        
+        // Generate WhatsApp link
+        function generateWhatsAppLink() {
+            const phone = document.getElementById('phoneNumber').value.trim();
+            const productName = document.getElementById('productName').value.trim();
+            const customMessage = document.getElementById('customMessage').value.trim();
+            const resultDiv = document.getElementById('whatsappResult');
+            
+            if (!phone || !productName) {
+                showResult(resultDiv, 'Please enter both phone number and product name', 'error');
+                return;
+            }
+            
+            let message = customMessage || `I want to buy ${productName}. Please share more details.`;
+            message = message.replace('[PRODUCT_NAME]', productName);
+            
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/${phone}?text=${encodedMessage}`;
+            
+            const result = `WhatsApp Link:\n${whatsappUrl}\n\nCopy this to your Google Sheet's WhatsAppLink column.`;
+            showResult(resultDiv, result, 'success');
+            
+            // Add copy button
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'btn copy-btn';
+            copyBtn.textContent = 'Copy Link';
+            copyBtn.onclick = () => copyToClipboard(whatsappUrl);
+            resultDiv.appendChild(copyBtn);
+        }
+        
+        // Generate Product ID
+        function generateProductId() {
+            const category = document.getElementById('category').value;
+            const sequence = document.getElementById('sequenceNumber').value;
+            const resultDiv = document.getElementById('productIdResult');
+            
+            if (!sequence) {
+                showResult(resultDiv, 'Please enter a sequence number', 'error');
+                return;
+            }
+            
+            const productId = `${category}${sequence.padStart(3, '0')}`;
+            const result = `Product ID: ${productId}\n\nExample: ${category}001, ${category}002, etc.`;
+            showResult(resultDiv, result, 'success');
+            
+            // Add copy button
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'btn copy-btn';
+            copyBtn.textContent = 'Copy ID';
+            copyBtn.onclick = () => copyToClipboard(productId);
+            resultDiv.appendChild(copyBtn);
+            
+            // Auto-increment sequence number
+            document.getElementById('sequenceNumber').value = parseInt(sequence) + 1;
+        }
+        
+        // Format bulk data
+        function formatBulkData() {
+            const bulkData = document.getElementById('bulkData').value.trim();
+            const whatsappPhone = document.getElementById('whatsappPhone').value.trim();
+            const resultDiv = document.getElementById('bulkResult');
+            
+            if (!bulkData) {
+                showResult(resultDiv, 'Please enter product data', 'error');
+                return;
+            }
+            
+            const lines = bulkData.split('\n').filter(line => line.trim());
+            const formattedRows = [];
+            let productCounter = 1;
+            
+            for (const line of lines) {
+                if (line.includes('|')) {
+                    const parts = line.split('|').map(part => part.trim());
+                    if (parts.length >= 6) {
+                        const [name, category, size, color, price, driveUrl, availability = 'Yes'] = parts;
+                        
+                        // Generate product ID
+                        const categoryCode = category.toUpperCase().substring(0, 6);
+                        const productId = `${categoryCode}${productCounter.toString().padStart(3, '0')}`;
+                        
+                        // Convert drive URL
+                        let imageUrl = driveUrl;
+                        try {
+                            imageUrl = cleanGoogleDriveUrl(driveUrl);
+                        } catch (e) {
+                            // Keep original URL if conversion fails
+                        }
+                        
+                        // Generate WhatsApp link
+                        const message = encodeURIComponent(`I want to buy ${name}. Please share more details.`);
+                        const whatsappLink = whatsappPhone ? `https://wa.me/${whatsappPhone}?text=${message}` : '';
+                        
+                        // Create tab-separated row for Google Sheets
+                        const row = [productId, name, category, size, color, price, imageUrl, whatsappLink, availability].join('\t');
+                        formattedRows.push(row);
+                        productCounter++;
+                    }
+                }
+            }
+            
+            if (formattedRows.length === 0) {
+                showResult(resultDiv, 'No valid product data found. Please check the format.', 'error');
+                return;
+            }
+            
+            const result = `Formatted data for Google Sheets (${formattedRows.length} products):\n\n${formattedRows.join('\n')}\n\nCopy and paste this into your Google Sheet starting from row 2.`;
+            showResult(resultDiv, result, 'success');
+            
+            // Add copy button
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'btn copy-btn';
+            copyBtn.textContent = 'Copy All Data';
+            copyBtn.onclick = () => copyToClipboard(formattedRows.join('\n'));
+            resultDiv.appendChild(copyBtn);
+        }
+        
+        // Utility functions
+        function showResult(element, message, type) {
+            element.className = `result ${type}`;
+            element.textContent = message;
+        }
+        
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                alert('Copied to clipboard!');
+            });
+        }
+    </script>
+</body>
+</html>

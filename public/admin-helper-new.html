@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Helper - Shreeji Vastraalay</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .admin-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .admin-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .admin-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .admin-card h2 {
+            color: #c41e3a;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-card .icon {
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #c41e3a;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .btn {
+            background: #c41e3a;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: #8b1538;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+
+        .btn-success {
+            background: #28a745;
+        }
+
+        .btn-success:hover {
+            background: #1e7e34;
+        }
+
+        .output-area {
+            background: #f8f9fa;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .instructions {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .instructions h3 {
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+
+        .instructions ol {
+            margin-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 5px;
+        }
+
+        .url-display {
+            background: #f8f9fa;
+            border: 2px solid #28a745;
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 10px;
+            font-family: 'Courier New', monospace;
+            word-break: break-all;
+            font-size: 12px;
+        }
+
+        .copy-btn {
+            background: #17a2b8;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .copy-btn:hover {
+            background: #138496;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .status-success {
+            background: #28a745;
+        }
+
+        .status-error {
+            background: #dc3545;
+        }
+
+        .status-warning {
+            background: #ffc107;
+        }
+
+        .quick-links {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-top: 30px;
+        }
+
+        .quick-links h2 {
+            color: #c41e3a;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .quick-link {
+            display: block;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            text-align: center;
+            transition: background 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .quick-link:hover {
+            background: #e9ecef;
+            border-color: #c41e3a;
+        }
+
+        .quick-link .icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .admin-sections {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .admin-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛠️ Admin Helper</h1>
+            <p>Manage your Shreeji Vastraalay products easily</p>
+        </div>
+
+        <div class="admin-sections">
+            <!-- Google Drive Image URL Generator -->
+            <div class="admin-card">
+                <h2><span class="icon">🖼️</span>Image URL Generator</h2>
+                <div class="instructions">
+                    <h3>How to get Google Drive image URLs:</h3>
+                    <ol>
+                        <li>Upload image to Google Drive</li>
+                        <li>Right-click → Share → Anyone with link</li>
+                        <li>Copy the sharing URL</li>
+                        <li>Paste it below to convert to direct URL</li>
+                    </ol>
+                </div>
+                
+                <div class="form-group">
+                    <label for="driveUrl">Google Drive Sharing URL:</label>
+                    <input type="url" id="driveUrl" placeholder="https://drive.google.com/file/d/YOUR_FILE_ID/view?usp=sharing">
+                </div>
+                
+                <button class="btn" onclick="convertDriveUrl()">Convert to Direct URL</button>
+                
+                <div id="directUrlOutput" class="output-area" style="display: none;">
+                    <strong>Direct Image URL:</strong><br>
+                    <span id="directUrl"></span>
+                    <button class="copy-btn" onclick="copyToClipboard('directUrl')">Copy</button>
+                </div>
+            </div>
+
+            <!-- WhatsApp Link Generator -->
+            <div class="admin-card">
+                <h2><span class="icon">💬</span>WhatsApp Link Generator</h2>
+                <div class="instructions">
+                    <h3>Generate WhatsApp purchase links:</h3>
+                    <ol>
+                        <li>Enter your WhatsApp number</li>
+                        <li>Enter product name</li>
+                        <li>Click generate to create the link</li>
+                    </ol>
+                </div>
+                
+                <div class="form-group">
+                    <label for="whatsappNumber">WhatsApp Number (with country code):</label>
+                    <input type="tel" id="whatsappNumber" placeholder="919173273691" value="919173273691">
+                </div>
+                
+                <div class="form-group">
+                    <label for="productName">Product Name:</label>
+                    <input type="text" id="productName" placeholder="Divine Krishna Poshak">
+                </div>
+                
+                <button class="btn" onclick="generateWhatsAppLink()">Generate WhatsApp Link</button>
+                
+                <div id="whatsappOutput" class="output-area" style="display: none;">
+                    <strong>WhatsApp Link:</strong><br>
+                    <span id="whatsappLink"></span>
+                    <button class="copy-btn" onclick="copyToClipboard('whatsappLink')">Copy</button>
+                </div>
+            </div>
+
+            <!-- Product ID Generator -->
+            <div class="admin-card">
+                <h2><span class="icon">🔢</span>Product ID Helper</h2>
+                <div class="instructions">
+                    <h3>Generate unique product IDs:</h3>
+                    <ol>
+                        <li>Select product category</li>
+                        <li>Click generate for next available ID</li>
+                        <li>Use this ID in your Google Sheet</li>
+                    </ol>
+                </div>
+                
+                <div class="form-group">
+                    <label for="productCategory">Product Category:</label>
+                    <select id="productCategory">
+                        <option value="POSHAK">Poshak</option>
+                        <option value="MUKUT">Mukut</option>
+                        <option value="MALA">Mala</option>
+                        <option value="BANSURI">Bansuri</option>
+                        <option value="COMBO">Combo</option>
+                        <option value="PAGDI">Pagdi</option>
+                    </select>
+                </div>
+                
+                <button class="btn" onclick="generateProductId()">Generate Product ID</button>
+                
+                <div id="productIdOutput" class="output-area" style="display: none;">
+                    <strong>Suggested Product ID:</strong><br>
+                    <span id="generatedId"></span>
+                    <button class="copy-btn" onclick="copyToClipboard('generatedId')">Copy</button>
+                </div>
+            </div>
+
+            <!-- Bulk Data Generator -->
+            <div class="admin-card">
+                <h2><span class="icon">📊</span>Bulk Data Helper</h2>
+                <div class="instructions">
+                    <h3>Generate multiple product entries:</h3>
+                    <ol>
+                        <li>Fill in the common details</li>
+                        <li>Specify how many variants</li>
+                        <li>Copy the generated CSV data</li>
+                    </ol>
+                </div>
+                
+                <div class="form-group">
+                    <label for="baseProductName">Base Product Name:</label>
+                    <input type="text" id="baseProductName" placeholder="Krishna Poshak">
+                </div>
+                
+                <div class="form-group">
+                    <label for="baseCategory">Category:</label>
+                    <select id="baseCategory">
+                        <option value="Poshak">Poshak</option>
+                        <option value="Mukut">Mukut</option>
+                        <option value="Mala">Mala</option>
+                        <option value="Bansuri">Bansuri</option>
+                        <option value="Combo">Combo</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="basePrice">Base Price:</label>
+                    <input type="number" id="basePrice" placeholder="299">
+                </div>
+                
+                <div class="form-group">
+                    <label for="variants">Variants (comma-separated):</label>
+                    <input type="text" id="variants" placeholder="Red Size 2, Blue Size 3, Yellow Size 4">
+                </div>
+                
+                <button class="btn" onclick="generateBulkData()">Generate Bulk Data</button>
+                
+                <div id="bulkOutput" class="output-area" style="display: none;">
+                    <strong>CSV Data (copy and paste to Google Sheets):</strong><br>
+                    <textarea id="bulkData" readonly style="width: 100%; height: 150px; margin-top: 10px;"></textarea>
+                    <button class="copy-btn" onclick="copyToClipboard('bulkData')">Copy All</button>
+                </div>
+            </div>
+
+            <!-- System Status Checker -->
+            <div class="admin-card">
+                <h2><span class="icon">⚡</span>System Status</h2>
+                <div class="instructions">
+                    <h3>Check if your setup is working:</h3>
+                    <ol>
+                        <li>Enter your Google Apps Script URL</li>
+                        <li>Click test to verify connection</li>
+                        <li>Check if products are loading</li>
+                    </ol>
+                </div>
+                
+                <div class="form-group">
+                    <label for="scriptUrl">Google Apps Script URL:</label>
+                    <input type="url" id="scriptUrl" placeholder="https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec">
+                </div>
+                
+                <button class="btn" onclick="testConnection()">Test Connection</button>
+                
+                <div id="statusOutput" class="output-area" style="display: none;">
+                    <div id="statusResults"></div>
+                </div>
+            </div>
+
+            <!-- Quick Setup Guide -->
+            <div class="admin-card">
+                <h2><span class="icon">📋</span>Quick Setup Checklist</h2>
+                <div class="instructions">
+                    <h3>Complete setup checklist:</h3>
+                    <div id="setupChecklist">
+                        <div class="checklist-item">
+                            <input type="checkbox" id="check1"> 
+                            <label for="check1">Created Google Sheet with proper columns</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="check2"> 
+                            <label for="check2">Made Google Sheet public (Anyone with link - Viewer)</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="check3"> 
+                            <label for="check3">Created Google Apps Script project</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="check4"> 
+                            <label for="check4">Deployed Apps Script as Web App</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="check5"> 
+                            <label for="check5">Updated HTML file with Apps Script URL</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="check6"> 
+                            <label for="check6">Uploaded product images to Google Drive</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="check7"> 
+                            <label for="check7">Made images public (Anyone with link)</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="check8"> 
+                            <label for="check8">Added sample products to test</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-success" onclick="checkProgress()">Check Progress</button>
+                
+                <div id="progressOutput" class="output-area" style="display: none;">
+                    <div id="progressResults"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Links Section -->
+        <div class="quick-links">
+            <h2>🔗 Quick Links</h2>
+            <div class="links-grid">
+                <a href="https://sheets.google.com" target="_blank" class="quick-link">
+                    <span class="icon">📊</span>
+                    Google Sheets
+                </a>
+                <a href="https://drive.google.com" target="_blank" class="quick-link">
+                    <span class="icon">💾</span>
+                    Google Drive
+                </a>
+                <a href="https://script.google.com" target="_blank" class="quick-link">
+                    <span class="icon">⚙️</span>
+                    Apps Script
+                </a>
+                <a href="dynamic-products.html" target="_blank" class="quick-link">
+                    <span class="icon">🛍️</span>
+                    View Products
+                </a>
+                <a href="index.html" target="_blank" class="quick-link">
+                    <span class="icon">🏠</span>
+                    Main Website
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Convert Google Drive sharing URL to direct image URL
+        function convertDriveUrl() {
+            const driveUrl = document.getElementById('driveUrl').value.trim();
+            
+            if (!driveUrl) {
+                alert('Please enter a Google Drive URL');
+                return;
+            }
+            
+            // Extract file ID from various Google Drive URL formats
+            let fileId = null;
+            
+            // Format: https://drive.google.com/file/d/FILE_ID/view?usp=sharing
+            const viewMatch = driveUrl.match(/\/file\/d\/([a-zA-Z0-9-_]+)/);
+            if (viewMatch) {
+                fileId = viewMatch[1];
+            }
+            
+            // Format: https://drive.google.com/open?id=FILE_ID
+            const openMatch = driveUrl.match(/[?&]id=([a-zA-Z0-9-_]+)/);
+            if (openMatch) {
+                fileId = openMatch[1];
+            }
+            
+            if (fileId) {
+                const directUrl = `https://drive.google.com/uc?export=view&id=${fileId}`;
+                document.getElementById('directUrl').textContent = directUrl;
+                document.getElementById('directUrlOutput').style.display = 'block';
+            } else {
+                alert('Could not extract file ID from the URL. Please check the format.');
+            }
+        }
+
+        // Generate WhatsApp purchase link
+        function generateWhatsAppLink() {
+            const number = document.getElementById('whatsappNumber').value.trim();
+            const product = document.getElementById('productName').value.trim();
+            
+            if (!number || !product) {
+                alert('Please enter both WhatsApp number and product name');
+                return;
+            }
+            
+            const message = encodeURIComponent(`I want to buy ${product}`);
+            const whatsappUrl = `https://wa.me/${number}?text=${message}`;
+            
+            document.getElementById('whatsappLink').textContent = whatsappUrl;
+            document.getElementById('whatsappOutput').style.display = 'block';
+        }
+
+        // Generate product ID
+        function generateProductId() {
+            const category = document.getElementById('productCategory').value;
+            const timestamp = Date.now().toString().slice(-6);
+            const random = Math.floor(Math.random() * 100).toString().padStart(2, '0');
+            
+            const productId = `${category}${timestamp}${random}`;
+            
+            document.getElementById('generatedId').textContent = productId;
+            document.getElementById('productIdOutput').style.display = 'block';
+        }
+
+        // Generate bulk data
+        function generateBulkData() {
+            const baseName = document.getElementById('baseProductName').value.trim();
+            const category = document.getElementById('baseCategory').value;
+            const basePrice = document.getElementById('basePrice').value;
+            const variants = document.getElementById('variants').value.trim();
+            
+            if (!baseName || !basePrice || !variants) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            const variantList = variants.split(',').map(v => v.trim());
+            let csvData = '';
+            
+            variantList.forEach((variant, index) => {
+                const parts = variant.split(' ');
+                const color = parts[0] || 'Default';
+                const size = parts.slice(1).join(' ') || 'One Size';
+                const productId = Date.now() + index;
+                const productName = `${baseName} - ${variant}`;
+                const whatsappNumber = document.getElementById('whatsappNumber').value || '919173273691';
+                const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`I want to buy ${productName}`)}`;
+                
+                csvData += `${productId},${productName},${category},${size},${color},${basePrice},https://drive.google.com/file/d/YOUR_FILE_ID/view,${whatsappLink},Yes\n`;
+            });
+            
+            document.getElementById('bulkData').value = csvData;
+            document.getElementById('bulkOutput').style.display = 'block';
+        }
+
+        // Test connection to Google Apps Script
+        async function testConnection() {
+            const scriptUrl = document.getElementById('scriptUrl').value.trim();
+            
+            if (!scriptUrl) {
+                alert('Please enter your Google Apps Script URL');
+                return;
+            }
+            
+            const statusDiv = document.getElementById('statusResults');
+            statusDiv.innerHTML = '<div>Testing connection...</div>';
+            document.getElementById('statusOutput').style.display = 'block';
+            
+            try {
+                const response = await fetch(scriptUrl);
+                const data = await response.json();
+                
+                let statusHtml = '';
+                
+                if (response.ok) {
+                    statusHtml += '<div><span class="status-indicator status-success"></span>Connection successful</div>';
+                    
+                    if (Array.isArray(data) && data.length > 0) {
+                        statusHtml += `<div><span class="status-indicator status-success"></span>Found ${data.length} products</div>`;
+                        statusHtml += '<div>Sample product:</div>';
+                        statusHtml += `<pre>${JSON.stringify(data[0], null, 2)}</pre>`;
+                    } else if (data.error) {
+                        statusHtml += `<div><span class="status-indicator status-error"></span>Error: ${data.message || 'Unknown error'}</div>`;
+                    } else {
+                        statusHtml += '<div><span class="status-indicator status-warning"></span>No products found</div>';
+                    }
+                } else {
+                    statusHtml += `<div><span class="status-indicator status-error"></span>HTTP Error: ${response.status}</div>`;
+                }
+                
+                statusDiv.innerHTML = statusHtml;
+                
+            } catch (error) {
+                statusDiv.innerHTML = `<div><span class="status-indicator status-error"></span>Connection failed: ${error.message}</div>`;
+            }
+        }
+
+        // Check setup progress
+        function checkProgress() {
+            const checkboxes = document.querySelectorAll('#setupChecklist input[type="checkbox"]');
+            const total = checkboxes.length;
+            const completed = Array.from(checkboxes).filter(cb => cb.checked).length;
+            const percentage = Math.round((completed / total) * 100);
+            
+            let progressHtml = `<div><strong>Progress: ${completed}/${total} (${percentage}%)</strong></div>`;
+            
+            if (percentage === 100) {
+                progressHtml += '<div><span class="status-indicator status-success"></span>Setup complete! Your system should be working.</div>';
+            } else if (percentage >= 75) {
+                progressHtml += '<div><span class="status-indicator status-warning"></span>Almost there! Complete the remaining steps.</div>';
+            } else if (percentage >= 50) {
+                progressHtml += '<div><span class="status-indicator status-warning"></span>Good progress! Keep going.</div>';
+            } else {
+                progressHtml += '<div><span class="status-indicator status-error"></span>Just getting started. Follow the setup guide.</div>';
+            }
+            
+            document.getElementById('progressResults').innerHTML = progressHtml;
+            document.getElementById('progressOutput').style.display = 'block';
+        }
+
+        // Copy text to clipboard
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.textContent || element.value;
+            
+            navigator.clipboard.writeText(text).then(() => {
+                // Show temporary feedback
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                btn.style.background = '#28a745';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '#17a2b8';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                alert('Failed to copy to clipboard');
+            });
+        }
+
+        // Save checklist progress to localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkboxes = document.querySelectorAll('#setupChecklist input[type="checkbox"]');
+            
+            // Load saved progress
+            checkboxes.forEach(checkbox => {
+                const saved = localStorage.getItem(checkbox.id);
+                if (saved === 'true') {
+                    checkbox.checked = true;
+                }
+                
+                // Save progress on change
+                checkbox.addEventListener('change', function() {
+                    localStorage.setItem(this.id, this.checked);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
