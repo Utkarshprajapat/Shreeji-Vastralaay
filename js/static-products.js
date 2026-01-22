@@ -12,11 +12,11 @@ const STATIC_PRODUCTS = [
         "images": ["chudi dar poshak/red.jpg", "chudi dar poshak/yellow.jpg"],
         "colors": ["Red", "Yellow"],
         "sizes": ["Size 2", "Size 3", "Size 4"],
-        "colorImages": { 
+        "colorImages": {
             "Red": "chudi dar poshak/red.jpg",
             "Yellow": "chudi dar poshak/yellow.jpg"
         },
-        "sizePrices": { 
+        "sizePrices": {
             "Size 2": 299,
             "Size 3": 299,
             "Size 4": 319
@@ -34,22 +34,22 @@ const STATIC_PRODUCTS = [
         "inStock": true,
         "image": "colour dress/blue.jpg",
         "images": [
-            "colour dress/blue.jpg", 
-            "colour dress/orange.jpg", 
-            "colour dress/pibk.jpg", 
-            "colour dress/red.jpg", 
+            "colour dress/blue.jpg",
+            "colour dress/orange.jpg",
+            "colour dress/pink.jpg",
+            "colour dress/red.jpg",
             "colour dress/yellow.jpg"
         ],
         "colors": ["Blue", "Orange", "Pink", "Red", "Yellow"],
         "sizes": ["Size 2", "Size 3", "Size 4"],
-        "colorImages": { 
+        "colorImages": {
             "Blue": "colour dress/blue.jpg",
             "Orange": "colour dress/orange.jpg",
-            "Pink": "colour dress/pibk.jpg",
+            "Pink": "colour dress/pink.jpg",
             "Red": "colour dress/red.jpg",
             "Yellow": "colour dress/yellow.jpg"
         },
-        "sizePrices": { 
+        "sizePrices": {
             "Size 2": 249,
             "Size 3": 249,
             "Size 4": 269
@@ -75,49 +75,19 @@ const STATIC_PRODUCTS = [
         ],
         "colors": ["Baby Pink", "Blue", "Green", "Pink", "White"],
         "sizes": ["Size 2", "Size 3", "Size 4"],
-        "colorImages": { 
+        "colorImages": {
             "Baby Pink": "flower design poshak/baby pink.jpg",
             "Blue": "flower design poshak/blue.jpg",
             "Green": "flower design poshak/green.jpg",
             "Pink": "flower design poshak/pink.jpg",
             "White": "flower design poshak/white.jpg"
         },
-        "sizePrices": { 
+        "sizePrices": {
             "Size 2": 349,
             "Size 3": 349,
             "Size 4": 369
         },
         "featured": true
-    },
-    {
-        "id": "POSHAK004",
-        "name": "Cotton Poshak",
-        "category": "dresses",
-        "subcategory": "cotton",
-        "price": 199,
-        "originalPrice": 249,
-        "description": "Comfortable cotton poshak for daily wear",
-        "inStock": true,
-        "image": "cotton poshak/WhatsApp Image 2025-12-24 at 12.28.04 AM.jpeg",
-        "images": [
-            "cotton poshak/WhatsApp Image 2025-12-24 at 12.28.04 AM.jpeg",
-            "cotton poshak/WhatsApp Image 2025-12-24 at 12.28.27 AM (1).jpeg",
-            "cotton poshak/WhatsApp Image 2025-12-24 at 12.28.27 AM.jpeg",
-            "cotton poshak/WhatsApp Image 2025-12-24 at 12.28.28 AM.jpeg"
-        ],
-        "colors": ["White", "Cream", "Light Blue", "Light Pink"],
-        "sizes": ["Size 2", "Size 3", "Size 4"],
-        "colorImages": { 
-            "White": "cotton poshak/WhatsApp Image 2025-12-24 at 12.28.04 AM.jpeg",
-            "Cream": "cotton poshak/WhatsApp Image 2025-12-24 at 12.28.27 AM (1).jpeg",
-            "Light Blue": "cotton poshak/WhatsApp Image 2025-12-24 at 12.28.27 AM.jpeg",
-            "Light Pink": "cotton poshak/WhatsApp Image 2025-12-24 at 12.28.28 AM.jpeg"
-        },
-        "sizePrices": { 
-            "Size 2": 199,
-            "Size 3": 199,
-            "Size 4": 219
-        }
     },
     {
         "id": "MUKUT001",
@@ -132,10 +102,10 @@ const STATIC_PRODUCTS = [
         "images": ["Feather mukut/blue.jpg"],
         "colors": ["Blue"],
         "sizes": ["Medium", "Large"],
-        "colorImages": { 
+        "colorImages": {
             "Blue": "Feather mukut/blue.jpg"
         },
-        "sizePrices": { 
+        "sizePrices": {
             "Medium": 179,
             "Large": 199
         }
@@ -153,10 +123,10 @@ const STATIC_PRODUCTS = [
         "images": ["ganesh mukut/orange.jpg"],
         "colors": ["Golden"],
         "sizes": ["Medium", "Large"],
-        "colorImages": { 
+        "colorImages": {
             "Golden": "ganesh mukut/orange.jpg"
         },
-        "sizePrices": { 
+        "sizePrices": {
             "Medium": 199,
             "Large": 219
         }
@@ -179,13 +149,13 @@ const STATIC_PRODUCTS = [
         ],
         "colors": ["Design 1", "Design 2", "Design 3", "Design 4"],
         "sizes": ["Size 2", "Size 3", "Size 4"],
-        "colorImages": { 
+        "colorImages": {
             "Design 1": "combo/20251016_123822.jpg",
             "Design 2": "combo/20251016_123853.jpg",
             "Design 3": "combo/20251016_123921.jpg",
             "Design 4": "combo/20251016_123956.jpg"
         },
-        "sizePrices": { 
+        "sizePrices": {
             "Size 2": 599,
             "Size 3": 599,
             "Size 4": 649
@@ -196,4 +166,5 @@ const STATIC_PRODUCTS = [
 
 if (typeof window !== 'undefined') {
     window.STATIC_PRODUCTS = STATIC_PRODUCTS;
+    console.log("✅ Static products loaded:", STATIC_PRODUCTS.length);
 }
