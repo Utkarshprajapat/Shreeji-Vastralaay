@@ -21,12 +21,32 @@
 </head>
 
 <body>
+    <!-- Preloader -->
+    <div id="preloader"
+        style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffffff; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.5s ease;">
+        <div class="loader"
+            style="border: 4px solid #f3f3f3; border-top: 4px solid #B02E2E; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin-bottom: 20px;">
+        </div>
+        <h2 style="color: #B02E2E; font-family: 'Inter', sans-serif; font-weight: 600;">Shreeji Vastraalay</h2>
+        <p style="color: #666; margin-top: 10px;">Loading Divine Collection...</p>
+        <style>
+            @keyframes spin {
+                0% {
+                    transform: rotate(0deg);
+                }
+
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+        </style>
+    </div>
     <!-- Header -->
     <header class="header">
         <div class="container">
             <div class="nav-wrapper">
                 <div class="logo">
-                    <img src="logo.png" alt="Shreeji Vastraalay" class="logo-image"
+                    <img src="logo.png" alt="Shreeji Vastraalay" class="logo-image" width="150" height="50"
                         onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                     <span class="logo-text">Shreeji Vastraalay</span>
                 </div>
@@ -135,7 +155,8 @@
         <div class="hero-visual">
             <div class="hero-image-container">
                 <div class="hero-image-main">
-                    <img src="image1.webp" alt="Premium Laddu Gopal Collection" class="hero-main-image"
+                    <img src="image1.webp" alt="Premium Laddu Gopal Collection" class="hero-main-image" width="600"
+                        height="600" fetchpriority="high"
                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                     <div class="hero-placeholder premium" style="display: none;">
                         <div class="placeholder-icon">🕉️</div>
@@ -231,7 +252,8 @@
                 </div>
                 <div class="about-visual">
                     <div class="about-image">
-                        <img src="image1.webp" alt="Shreeji Vastraalay Story" class="about-main-image">
+                        <img src="image1.webp" alt="Shreeji Vastraalay Story" class="about-main-image" loading="lazy"
+                            width="600" height="600">
                     </div>
                     <div class="about-stats">
                         <div class="stat-card">
@@ -254,7 +276,8 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <div class="footer-logo">
-                        <img src="logo.png" alt="Shreeji Vastraalay" class="footer-logo-image">
+                        <img src="logo.png" alt="Shreeji Vastraalay" class="footer-logo-image" loading="lazy"
+                            width="150" height="50">
                         <h3>Shreeji Vastraalay</h3>
                     </div>
                     <p>Premium Laddu Gopal dresses and accessories crafted with devotion and traditional artistry.</p>

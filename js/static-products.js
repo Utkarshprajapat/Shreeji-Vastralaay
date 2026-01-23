@@ -321,7 +321,188 @@ const STATIC_PRODUCTS = [
             "Red": "moti work dress/red.jpg",
             "Yellow": "moti work dress/yellow.jpg"
         },
-        "sizePrices": { "3": 250, "4": 250 }
+    },
+    {
+        "id": "PAGDI_001",
+        "name": "Multicolor Pagdi",
+        "category": "pagdi",
+        "subcategory": "fancy",
+        "price": 70,
+        "description": "Vibrant multicolor pagdi",
+        "inStock": true,
+        "image": "multicolour pagdi/blue.jpg",
+        "images": ["multicolour pagdi/blue.jpg"],
+        "colors": ["Multicolor"],
+        "sizes": ["2"],
+        "colorImages": {
+            "Multicolor": "multicolour pagdi/blue.jpg"
+        },
+        "sizePrices": { "2": 70 }
+    },
+    {
+        "id": "POSHAK_011",
+        "name": "Net Dress",
+        "category": "dresses",
+        "subcategory": "net",
+        "price": 60,
+        "description": "Elegant net dress. Price increases with size.",
+        "inStock": true,
+        "image": "net dress/WhatsApp Image 2025-12-24 at 12.28.28 AM (2).jpeg",
+        "images": ["net dress/WhatsApp Image 2025-12-24 at 12.28.28 AM (2).jpeg"],
+        "colors": ["Design 1"],
+        "sizes": ["2", "3", "4", "5", "6"],
+        "colorImages": {
+            "Design 1": "net dress/WhatsApp Image 2025-12-24 at 12.28.28 AM (2).jpeg"
+        },
+        "sizePrices": {
+            "2": 60,
+            "3": 90,
+            "4": 120,
+            "5": 150,
+            "6": 180
+        }
+    },
+    {
+        "id": "MUKUT_003",
+        "name": "Net Mukut",
+        "category": "mukut",
+        "subcategory": "net",
+        "price": 80,
+        "description": "Matching net mukut",
+        "inStock": true,
+        "image": "net mukut/20251016_110407.jpg",
+        "images": ["net mukut/20251016_110407.jpg"],
+        "colors": ["Design 1"],
+        "sizes": ["3", "4"],
+        "colorImages": {
+            "Design 1": "net mukut/20251016_110407.jpg"
+        },
+        "sizePrices": { "3": 80, "4": 80 }
+    },
+    {
+        "id": "POSHAK_012",
+        "name": "Radhe Print Poshak",
+        "category": "dresses",
+        "subcategory": "print",
+        "price": 120,
+        "description": "Poshak with Radhe print",
+        "inStock": true,
+        "image": "radha print poshak/WhatsApp Image 2025-12-24 at 12.28.29 AM.jpeg",
+        "images": ["radha print poshak/WhatsApp Image 2025-12-24 at 12.28.29 AM.jpeg"],
+        "colors": ["Design 1"],
+        "sizes": ["3", "4"],
+        "colorImages": {
+            "Design 1": "radha print poshak/WhatsApp Image 2025-12-24 at 12.28.29 AM.jpeg"
+        },
+        "sizePrices": { "3": 120, "4": 120 }
+    },
+    {
+        "id": "POSHAK_013",
+        "name": "Radhe Name Dress",
+        "category": "dresses",
+        "subcategory": "name",
+        "price": 80,
+        "description": "Dress with Radhe name design",
+        "inStock": true,
+        "image": "radhe name dress/green.jpg",
+        "images": ["radhe name dress/green.jpg"],
+        "colors": ["Design 1"],
+        "sizes": ["2"],
+        "colorImages": {
+            "Design 1": "radhe name dress/green.jpg"
+        },
+        "sizePrices": { "2": 80 }
+    },
+    {
+        "id": "POSHAK_014",
+        "name": "Sitsar Poshak",
+        "category": "dresses",
+        "subcategory": "sitsar",
+        "price": 60,
+        "description": "Sitsar work poshak. Price increases with size.",
+        "inStock": true,
+        "image": "sitare poshak/green.jpeg",
+        "images": ["sitare poshak/green.jpeg"],
+        "colors": ["Design 1"],
+        "sizes": ["2", "3", "4", "5", "6"],
+        "colorImages": {
+            "Design 1": "sitare poshak/green.jpeg"
+        },
+        "sizePrices": {
+            "2": 60,
+            "3": 90,
+            "4": 120,
+            "5": 150,
+            "6": 180
+        }
+    },
+    {
+        "id": "POSHAK_015",
+        "name": "Sunflower Poshak",
+        "category": "dresses",
+        "subcategory": "flower",
+        "price": 150,
+        "description": "Bright sunflower design poshak",
+        "inStock": true,
+        "image": "sunflower poshak/WhatsApp Image 2025-12-24 at 12.30.24 AM.jpeg",
+        "images": ["sunflower poshak/WhatsApp Image 2025-12-24 at 12.30.24 AM.jpeg"],
+        "colors": ["Design 1"],
+        "sizes": ["5", "6"],
+        "colorImages": {
+            "Design 1": "sunflower poshak/WhatsApp Image 2025-12-24 at 12.30.24 AM.jpeg"
+        },
+        "sizePrices": { "5": 150, "6": 150 }
+    },
+    {
+        "id": "POSHAK_016",
+        "name": "Sunflower Dress",
+        "category": "dresses",
+        "subcategory": "flower",
+        "price": 100,
+        "description": "Cute sunflower dress",
+        "inStock": true,
+        "image": "sunflowers dress/WhatsApp Image 2025-12-24 at 12.28.28 AM (1).jpeg",
+        "images": ["sunflowers dress/WhatsApp Image 2025-12-24 at 12.28.28 AM (1).jpeg"],
+        "colors": ["Design 1"],
+        "sizes": ["2"],
+        "colorImages": {
+            "Design 1": "sunflowers dress/WhatsApp Image 2025-12-24 at 12.28.28 AM (1).jpeg"
+        },
+        "sizePrices": { "2": 100 }
+    },
+    {
+        "id": "POSHAK_017",
+        "name": "Velvet Dress",
+        "category": "dresses",
+        "subcategory": "velvet",
+        "price": 150,
+        "description": "Rich velvet fabric dress",
+        "inStock": true,
+        "image": "velvet dress/blue.jpg",
+        "images": ["velvet dress/blue.jpg"],
+        "colors": ["Design 1"],
+        "sizes": ["2"],
+        "colorImages": {
+            "Design 1": "velvet dress/blue.jpg"
+        },
+        "sizePrices": { "2": 150 }
+    },
+    {
+        "id": "MUKUT_004",
+        "name": "White Color Mukut",
+        "category": "mukut",
+        "subcategory": "simple",
+        "price": 100,
+        "description": "Pure white mukut",
+        "inStock": true,
+        "image": "white colour mukut/20251016_103525.jpg",
+        "images": ["white colour mukut/20251016_103525.jpg"],
+        "colors": ["Design 1"],
+        "sizes": ["3"],
+        "colorImages": {
+            "Design 1": "white colour mukut/20251016_103525.jpg"
+        },
+        "sizePrices": { "3": 100 }
     }
 ];
 

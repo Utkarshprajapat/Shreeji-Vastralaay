@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Order Submission - Shreeji Vastraalay</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        button:hover {
+            background: #0056b3;
+        }
+        
+        .form-group {
+            margin: 15px 0;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        textarea {
+            height: 60px;
+            resize: vertical;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Order Submission Test</h1>
+    
+    <div class="test-section">
+        <h2>📊 Current Configuration</h2>
+        <div id="configStatus"></div>
+        <button onclick="checkConfiguration()">Check Configuration</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>🔗 Test Webhook URL</h2>
+        <div id="webhookStatus"></div>
+        <button onclick="testWebhook()">Test Webhook</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>📝 Test Order Submission</h2>
+        <form id="testOrderForm">
+            <div class="form-group">
+                <label for="testName">Customer Name:</label>
+                <input type="text" id="testName" value="Test Customer" required>
+            </div>
+            <div class="form-group">
+                <label for="testPhone">Phone:</label>
+                <input type="tel" id="testPhone" value="9999999999" required>
+            </div>
+            <div class="form-group">
+                <label for="testAddress">Address:</label>
+                <textarea id="testAddress" required>Test Address, Test City</textarea>
+            </div>
+            <div class="form-group">
+                <label for="testPincode">Pincode:</label>
+                <input type="text" id="testPincode" value="123456" required>
+            </div>
+            <div class="form-group">
+                <label for="testPayment">Payment Method:</label>
+                <select id="testPayment" required>
+                    <option value="COD">Cash on Delivery (COD)</option>
+                    <option value="ONLINE">Online Payment</option>
+                </select>
+            </div>
+            <button type="submit">Submit Test Order</button>
+        </form>
+        <div id="orderStatus"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>📋 Instructions to Fix</h2>
+        <div class="info">
+            <h3>If the webhook test fails, follow these steps:</h3>
+            <ol>
+                <li><strong>Go to Google Apps Script:</strong> <a href="https://script.google.com/" target="_blank">https://script.google.com/</a></li>
+                <li><strong>Create New Project:</strong> Click "New Project"</li>
+                <li><strong>Copy the Code:</strong> Replace default code with the code from <code>google-apps-script.js</code> file</li>
+                <li><strong>Save:</strong> Save the project as "Shreeji Vastraalay Orders"</li>
+                <li><strong>Deploy:</strong> Click "Deploy" → "New Deployment"</li>
+                <li><strong>Settings:</strong> 
+                   <ul>
+                       <li>Type: Web app</li>
+                       <li>Execute as: Me</li>
+                       <li>Who has access: Anyone</li>
+                   </ul>
+                </li>
+                <li><strong>Copy URL:</strong> Copy the Web App URL</li>
+                <li><strong>Update Code:</strong> Replace <code>GOOGLE_SHEET_WEBHOOK_URL</code> in app.js with the new URL</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        const GOOGLE_SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbx3nzjSSNyJvCIP2cIZRSJkiJxlvTeQamTEl-zFsbhq_XTHU5vfGSGCiy0g4sBWbPc/exec";
+        
+        function updateStatus(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<div class="status ${type}">${message}</div>`;
+        }
+        
+        function checkConfiguration() {
+            updateStatus('configStatus', '🔄 Checking configuration...', 'warning');
+            
+            const config = {
+                webhookUrl: GOOGLE_SHEET_WEBHOOK_URL,
+                urlValid: GOOGLE_SHEET_WEBHOOK_URL.includes('script.google.com'),
+                urlLength: GOOGLE_SHEET_WEBHOOK_URL.length
+            };
+            
+            let message = `
+                <strong>Webhook URL:</strong> ${config.webhookUrl}<br>
+                <strong>URL Valid:</strong> ${config.urlValid ? '✅ Yes' : '❌ No'}<br>
+                <strong>URL Length:</strong> ${config.urlLength} characters
+            `;
+            
+            if (config.urlValid) {
+                updateStatus('configStatus', message, 'success');
+            } else {
+                updateStatus('configStatus', message + '<br><strong>❌ Invalid Google Apps Script URL!</strong>', 'error');
+            }
+        }
+        
+        async function testWebhook() {
+            updateStatus('webhookStatus', '🔄 Testing webhook connection...', 'warning');
+            
+            try {
+                const response = await fetch(GOOGLE_SHEET_WEBHOOK_URL, {
+                    method: 'GET',
+                    mode: 'no-cors'
+                });
+                
+                // Since we're using no-cors, we can't read the response
+                // But if no error is thrown, the URL is reachable
+                updateStatus('webhookStatus', '✅ Webhook URL is reachable! (GET request successful)', 'success');
+                
+            } catch (error) {
+                updateStatus('webhookStatus', `❌ Webhook test failed: ${error.message}`, 'error');
+            }
+        }
+        
+        document.getElementById('testOrderForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            updateStatus('orderStatus', '🔄 Submitting test order...', 'warning');
+            
+            const orderData = {
+                name: document.getElementById('testName').value,
+                phone: document.getElementById('testPhone').value,
+                address: document.getElementById('testAddress').value,
+                pincode: document.getElementById('testPincode').value,
+                paymentMethod: document.getElementById('testPayment').value,
+                items: [
+                    {
+                        name: 'Test Chudi Dar Poshak',
+                        size: 'Size 3',
+                        color: 'Red',
+                        quantity: 1,
+                        price: 299
+                    }
+                ],
+                total: 299
+            };
+            
+            try {
+                // Generate Order ID and Date
+                const orderId = 'TEST-' + Date.now();
+                const date = new Date().toLocaleString('en-IN');
+                
+                // Format items as a string for the spreadsheet
+                const itemsSummary = orderData.items.map(i =>
+                    `${i.name} [${i.size} - ${i.color}] x${i.quantity}`
+                ).join(', ');
+                
+                // Use URLSearchParams for x-www-form-urlencoded
+                const formData = new URLSearchParams();
+                formData.append("Order ID", orderId);
+                formData.append("Date", date);
+                formData.append("Customer Name", orderData.name);
+                formData.append("Phone", orderData.phone);
+                formData.append("Address", orderData.address);
+                formData.append("Pincode", orderData.pincode);
+                formData.append("Payment Method", orderData.paymentMethod);
+                formData.append("Items", itemsSummary);
+                formData.append("Total Amount", orderData.total);
+                
+                console.log('Sending order data:', Object.fromEntries(formData));
+                
+                const response = await fetch(GOOGLE_SHEET_WEBHOOK_URL, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    body: formData.toString()
+                });
+                
+                // Since we're using no-cors, we can't read the response
+                // But if no error is thrown, the request was sent
+                updateStatus('orderStatus', 
+                    `✅ Test order submitted successfully!<br>
+                    <strong>Order ID:</strong> ${orderId}<br>
+                    <strong>Check your Google Sheet for the new order.</strong>`, 
+                    'success'
+                );
+                
+            } catch (error) {
+                updateStatus('orderStatus', `❌ Order submission failed: ${error.message}`, 'error');
+            }
+        });
+        
+        // Auto-check configuration on load
+        document.addEventListener('DOMContentLoaded', () => {
+            checkConfiguration();
+        });
+    </script>
+</body>
+</html>

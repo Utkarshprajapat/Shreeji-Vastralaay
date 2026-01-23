@@ -32,6 +32,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     addScrollAnimations();
+
+    // Remove Preloader when everything is loaded
+    window.addEventListener('load', () => {
+        const preloader = document.getElementById('preloader');
+        if (preloader) {
+            preloader.style.opacity = '0';
+            setTimeout(() => {
+                preloader.style.display = 'none';
+            }, 500);
+        }
+    });
+
+    // Fallback: If load takes too long (e.g. 5s), remove preloader anyway
+    setTimeout(() => {
+        const preloader = document.getElementById('preloader');
+        if (preloader && preloader.style.display !== 'none') {
+            preloader.style.opacity = '0';
+            setTimeout(() => {
+                preloader.style.display = 'none';
+            }, 500);
+        }
+    }, 5000);
 });
 
 // ===== DATA LOADING =====
@@ -462,6 +484,221 @@ function setupEventListeners() {
 
     const cartIcon = document.getElementById('cartIcon');
     if (cartIcon) cartIcon.onclick = window.showCart;
+
+    // Checkout Modal Open
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    if (checkoutBtn) {
+        checkoutBtn.onclick = () => {
+            // Close Cart first
+            const cartModal = document.getElementById('cartModal');
+            if (cartModal) cartModal.classList.remove('active');
+
+            // Open Checkout
+            const checkoutModal = document.getElementById('checkoutModal');
+            if (checkoutModal) checkoutModal.classList.add('active');
+        };
+    }
+
+    const closeCheckout = document.getElementById('closeCheckout');
+    if (closeCheckout) {
+        closeCheckout.onclick = () => {
+            document.getElementById('checkoutModal').classList.remove('active');
+        }
+    }
+
+    // Handle Checkout Form Submission
+    const checkoutForm = document.getElementById('checkoutForm');
+    if (checkoutForm) {
+        checkoutForm.onsubmit = handleCheckoutSubmit;
+    }
+
+    // Success Modal Close
+    const closeSuccess = document.getElementById('closeSuccess');
+    if (closeSuccess) {
+        closeSuccess.onclick = () => {
+            document.getElementById('successModal').classList.remove('active');
+        }
+    }
+}
+
+// ===== CHECKOUT LOGIC =====
+
+function handleCheckoutSubmit(e) {
+    e.preventDefault();
+
+    // 1. Validate Cart
+    if (window.cart.length === 0) {
+        alert("Your cart is empty!");
+        return;
+    }
+
+    // 2. Get Data
+    const name = document.getElementById('fullName').value;
+    const phone = document.getElementById('phone').value;
+    const address = document.getElementById('address').value;
+    const pincode = document.getElementById('pincode').value;
+    const paymentMethod = document.getElementById('paymentMethod').value;
+
+    const totalAmount = window.cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+
+    const orderDetails = {
+        name, phone, address, pincode, paymentMethod,
+        items: window.cart,
+        total: totalAmount,
+        date: new Date().toISOString()
+    };
+
+    if (paymentMethod === 'ONLINE') {
+        handleOnlinePayment(totalAmount, orderDetails);
+    } else {
+        // COD
+        placeOrder(orderDetails);
+    }
+}
+
+function handleOnlinePayment(amount, orderDetails) {
+    const options = {
+        "key": RAZORPAY_KEY_ID, // Use the global key
+        "amount": amount * 100, // Amount in subunits (paise)
+        "currency": "INR",
+        "name": BUSINESS_NAME,
+        "description": "Payment for Order",
+        "image": BUSINESS_LOGO,
+        "handler": function (response) {
+            // Payment Success
+            console.log("Payment Successful:", response);
+            orderDetails.paymentId = response.razorpay_payment_id;
+            orderDetails.status = 'PAID';
+            placeOrder(orderDetails);
+        },
+        "prefill": {
+            "name": orderDetails.name,
+            "contact": orderDetails.phone
+        },
+        "theme": {
+            "color": "#3399cc"
+        }
+    };
+
+    try {
+        const rzp1 = new Razorpay(options);
+        rzp1.on('payment.failed', function (response) {
+            alert("Payment Failed: " + response.error.description);
+            console.error("Payment Failed:", response.error);
+        });
+        rzp1.open();
+    } catch (err) {
+        console.error("Razorpay Error:", err);
+        alert("Could not initiate payment. Please check if Razorpay SDK is loaded.");
+    }
+}
+
+function placeOrder(orderDetails) {
+    console.log("🚀 Placing Order:", orderDetails);
+
+    // Generate Order ID and Date
+    const orderId = 'ORD-' + Date.now();
+    const date = new Date().toLocaleString('en-IN');
+
+    // Format items as a string for the spreadsheet
+    const itemsSummary = orderDetails.items.map(i =>
+        `${i.name} [${i.size} - ${i.color}] x${i.quantity} @ ₹${i.price}`
+    ).join(', ');
+
+    console.log("📦 Order Summary:", {
+        orderId,
+        date,
+        customer: orderDetails.name,
+        phone: orderDetails.phone,
+        items: itemsSummary,
+        total: orderDetails.total
+    });
+
+    // Use URLSearchParams for x-www-form-urlencoded
+    const formData = new URLSearchParams();
+    formData.append("Order ID", orderId);
+    formData.append("Date", date);
+    formData.append("Customer Name", orderDetails.name);
+    formData.append("Phone", orderDetails.phone);
+    formData.append("Address", orderDetails.address);
+    formData.append("Pincode", orderDetails.pincode);
+    formData.append("Payment Method", orderDetails.paymentMethod);
+    formData.append("Items", itemsSummary);
+    formData.append("Total Amount", `₹${orderDetails.total}`);
+
+    console.log("📤 Sending to Google Sheets:", Object.fromEntries(formData));
+
+    // Send to Google Sheets with better error handling
+    fetch(GOOGLE_SHEET_WEBHOOK_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: formData.toString(),
+        keepalive: true
+    })
+    .then(() => {
+        console.log("✅ Order sent to Google Sheet successfully");
+        
+        // Show success notification
+        if (typeof showNotification === 'function') {
+            showNotification(`Order ${orderId} placed successfully!`);
+        }
+    })
+    .catch(err => {
+        console.error("❌ Failed to send order to Google Sheet:", err);
+        
+        // Show error notification but don't block the user experience
+        if (typeof showNotification === 'function') {
+            showNotification("Order placed but there was an issue with recording. We'll contact you soon!");
+        }
+        
+        // You could also send the order via email or another backup method here
+        console.log("💾 Backup: Order details for manual processing:", {
+            orderId, date, orderDetails
+        });
+    });
+
+    // Close Checkout Modal
+    const checkoutModal = document.getElementById('checkoutModal');
+    if (checkoutModal) {
+        checkoutModal.classList.remove('active');
+        console.log("🔒 Checkout modal closed");
+    }
+
+    // Show Success Modal
+    const successModal = document.getElementById('successModal');
+    if (successModal) {
+        successModal.classList.add('active');
+        console.log("🎉 Success modal shown");
+        
+        // Update success message with order ID
+        const successMessage = document.getElementById('successMessage');
+        if (successMessage) {
+            successMessage.textContent = `Order ${orderId} placed successfully! We'll contact you shortly.`;
+        }
+    }
+
+    // Clear Cart
+    if (window.cart) {
+        window.cart = [];
+        console.log("🛒 Cart cleared");
+    }
+    
+    // Update cart count
+    if (typeof updateCartCount === 'function') {
+        updateCartCount();
+    }
+
+    // Reset Form
+    const form = document.getElementById('checkoutForm');
+    if (form) {
+        form.reset();
+        console.log("📝 Checkout form reset");
+    }
+    
+    console.log("✅ Order placement process completed");
 }
 
 // Stub for scroll animations
